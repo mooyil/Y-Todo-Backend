@@ -1,14 +1,31 @@
 const express = require("express");
-const router = express.Router();
+const todosRoute = express.Router();
 // let todos = require("../Todos");
 const mongoose = require("mongoose");
 const Todos = require("../models/Todos");
+const db = require("../database/database");
+
+
 
 // router.get("/", (req, res) => {
 //     res.json(todos);
 // })
 
-router.get("/todos", async (req, res) => {
+// todosRoute.get("/hallo", (req, res, next) => {
+//     const sql = "select * from todos"
+//     const params = []
+//     db.all(sql, params, (err, rows) => {
+//         if(err) {
+//             res.status(400).json({"error": err.message})
+//             return
+//         }res.json({
+//             "message": "success",
+//             "data": rows
+//         })
+//     })
+// })
+
+todosRoute.get("/todos", async (req, res) => {
   try {
     const todos = await Todos.find();
     res.json(todos);
@@ -21,7 +38,7 @@ router.get("/todos", async (req, res) => {
 //   res.json(todos.filter((todo) => todo.id === parseInt(req.params.id)));
 // });
 
-router.get("/todo/:id", async (req, res) => {
+todosRoute.get("/todo/:id", async (req, res) => {
   try {
     const todo = await Todos.findById(req.params.id);
     res.send(todo);
@@ -59,15 +76,16 @@ router.get("/todo/:id", async (req, res) => {
 //     res.json(newTodos);
 //   });
 
-router.post("/todos", async (req, res) => {
+todosRoute.post("/todos/post", async (req, res) => {
   const todos = Todos({
     content: req.body.content,
     isDone: false,
     date: req.body.date,
-    tab: req.body.tab
+    tab: req.body.tab,
   });
   try {
     const savedTodos = await todos.save();
+
     res.json(savedTodos);
   } catch (err) {
     res.send(err);
@@ -80,7 +98,7 @@ router.post("/todos", async (req, res) => {
 //   res.json(todos);
 // });
 
-router.delete("/todos/delete/:id", async (req, res) => {
+todosRoute.delete("/todos/delete/:id", async (req, res) => {
   try {
     const removedTodo = await Todos.deleteOne({ _id: req.params.id });
     res.json(removedTodo);
@@ -106,11 +124,11 @@ router.delete("/todos/delete/:id", async (req, res) => {
 //   }
 // });
 
-router.patch("/todos/change/:id", async (req, res) => {
+todosRoute.patch("/todos/change/:id", async (req, res) => {
   try {
     const updatedTodo = await Todos.updateOne(
       { _id: req.params.id },
-      { $set: { content: req.body.content, date: req.body.date } },
+      { $set: { content: req.body.content, date: req.body.date } }
     );
     res.send(updatedTodo);
   } catch (err) {
@@ -118,8 +136,18 @@ router.patch("/todos/change/:id", async (req, res) => {
   }
 });
 
+todosRoute.get("/todos/sort", async (req, res) => {
+  try{
+    const sortedTodos = await Todos.find().sort({date: 1})
+    res.json(sortedTodos)
+  }catch(err){
+    res.send(err)
+  }
+})
+
+//connect to DB
 mongoose.connect("mongodb://localhost:27017", () => {
-  console.log("conntected to DB");
+  console.log("conntected (Todos)");
 });
 
-module.exports = router;
+module.exports = todosRoute;

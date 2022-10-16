@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const route = require("./routes/routes");
+const todosRoute = require("./routes/todosRoute");
+const tabsRoute = require("./routes/tabsRoute")
 app.use(
   cors({
     origin: "*",
@@ -15,19 +16,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //Get all todos
-app.use("/todos", route);
+app.use("/", todosRoute);
+app.use("/", tabsRoute)
 
 //bestimmte todos bekommen
-app.use("/todos/", route);
+// app.use("/todos/", todosRoute);
 
 //add new todos
-app.use("/", route);
+// app.use("/", todosRoute);
+app.use("/", tabsRoute)
 
 //delete todos
-app.use("/", route);
+// app.use("/", todosRoute);
+app.use("/", tabsRoute)
 
 //update todos
-app.use("/", route);
+// app.use("/", todosRoute);
 
 const PORT = process.env.PORT || 5200;
 
