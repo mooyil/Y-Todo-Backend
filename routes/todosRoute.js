@@ -5,19 +5,21 @@ const mongoose = require("mongoose");
 const Todos = require("../models/Todos");
 const db = require("../database/database");
 
-todosRoute.get("/todos", (req, res, next) => {
-  const sql = "select * from todos";
-  const params = [];
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: "success",
-      data: rows,
+todosRoute.get("/todos/username/:userEmail", (req, res, next) => {
+  var sql = "select * from todos where userEmail = ?"
+  var params = [req.params.userEmail]
+  console.log(sql, params)
+  db.all(sql, params, (err, resp) => {
+    console.log(resp)
+      if (err) {
+        res.status(400).json({"error":err.message});
+        return;
+      }
+      res.json({
+          "message":"success",
+          "data":resp
+      })
     });
-  });
 });
 
 todosRoute.get("/todos/sort/date", (req, res, next) => {

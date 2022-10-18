@@ -38,13 +38,13 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                   `INSERT INTO users (email, password, userConfig) VALUES ( "enes@outlook.de", "enes123", "")`
                 );
                 db.run(
-                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "mainListe", "2022-10-18T13:22", "muhammed@outlook.de");`
+                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "", "2022-10-18T13:22", "muhammed@outlook.de");`
                 );
                 db.run(
-                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "mainListe", "2022-10-18T13:22", "enes@outlook.de");`
+                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "", "2022-10-18T13:22", "enes@outlook.de");`
                 );
                 db.run(
-                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "mainListe", "2022-10-18T13:22", "enes@outlook.de");`
+                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "", "2022-10-18T13:22", "enes@outlook.de");`
                 );
               }
             }
