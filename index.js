@@ -23,7 +23,7 @@ app.use("/", tabsRoute);
 // app.use("/todos/", todosRoute);
 
 //add new todos
-// app.use("/", todosRoute);
+app.use("/", todosRoute);
 app.use("/", tabsRoute);
 
 //delete todos

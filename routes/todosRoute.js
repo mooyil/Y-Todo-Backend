@@ -6,9 +6,9 @@ const Todos = require("../models/Todos");
 const db = require("../database/database");
 
 todosRoute.get("/todos/username/:userEmail", (req, res, next) => {
-  var sql = "select * from todos where userEmail = ?"
-  var params = [req.params.userEmail]
-  console.log(sql, params)
+  const sql = "select * from todos where userEmail = ?"
+  const params = [req.params.userEmail]
+  console.log(params)
   db.all(sql, params, (err, resp) => {
     console.log(resp)
       if (err) {
@@ -24,14 +24,14 @@ todosRoute.get("/todos/username/:userEmail", (req, res, next) => {
 
 todosRoute.get("/todos/sort/date", (req, res, next) => {
   const sql = "select * from todos order by date desc";
-  db.all(sql, (err, rows) => {
+  db.all(sql, (err, resp) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
     }
     res.json({
       message: "success",
-      data: rows,
+      data: resp,
     });
   });
 });
@@ -49,9 +49,10 @@ todosRoute.post("/todos/post", (req, res, next) => {
     content: req.body.content,
     tab: req.body.tab,
     date: req.body.date,
+    userEmail: req.body.userEmail
   };
-  const sql = "INSERT INTO todos (content, tab, date) VALUES (?,?,?)";
-  const params = [data.content, data.tab, data.date];
+  const sql = "INSERT INTO todos (content, tab, date, userEmail) VALUES (?,?,?,?)";
+  const params = [data.content, data.tab, data.date, data.userEmail];
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ error: err.message });
