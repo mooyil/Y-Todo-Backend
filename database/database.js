@@ -30,17 +30,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
             (err) => {
               if (err) {
-              } else {
-                db.run(
-                  `INSERT INTO users (email, password, userConfig) VALUES ( "muhammed@outlook.de", "muhammed123", "")`
-                );
-                db.run(
-                  `INSERT INTO users (email, password, userConfig) VALUES ( "enes@outlook.de", "enes123", "")`
-                );
-                db.run(
-                  `INSERT INTO todos (content, tab, date, useremail) VALUES( "putzen", "", "muhammed@outlook.de");`
-                );
-              }
+                console.log(err)
+              } 
             }
           );
         }
