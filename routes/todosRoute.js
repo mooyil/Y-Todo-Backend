@@ -5,7 +5,6 @@ const db = require("../database/database");
 todosRoute.get("/todos/username/:userEmail", (req, res, next) => {
   const sql = "select * from todos where userEmail = ?";
   const params = [req.params.userEmail];
-  console.log(params);
   db.all(sql, params, (err, resp) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -42,6 +41,7 @@ todosRoute.post("/todos/post", (req, res, next) => {
     return;
   }
   const data = {
+    id: new Date().getMilliseconds(),
     content: req.body.content,
     tab: req.body.tab,
     date: req.body.date,
@@ -58,10 +58,11 @@ todosRoute.post("/todos/post", (req, res, next) => {
     res.json({
       message: "success",
       data: data,
-      id: this.lastID,
+      id: this.lastID
     });
   });
 });
+
 
 todosRoute.delete("/todos/delete/:id", (req, res, next) => {
   db.run(

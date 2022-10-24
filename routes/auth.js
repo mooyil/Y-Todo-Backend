@@ -6,7 +6,6 @@ const db = require("../database/database");
 
 require("dotenv").config();
 
-db.run("delete from todos")
 
 let userEmail
 // Sign up
@@ -21,6 +20,15 @@ authRouter.post(
   async (req, res) => {
     const { email, password } = req.body;
 
+    const sql = "INSERT INTO tabs (name, userEmail) Values(?,?)";
+    const params = [req.body.email, req.body.password];
+    db.run(sql, params, (err, resp) => {
+      if (err) {
+        console.log(err)
+        return;
+      }
+ 
+    });
     // Validate user input
     const errors = validationResult(req);
 
@@ -31,9 +39,6 @@ authRouter.post(
     }
 
     // Validate if user already exists
-    // let user = users.find((user) => {
-    //   return user.email === email;
-    // });
     const sqlSelectSignup = "select email from users where email = ?";
     const paramsSelectSignup = [req.body.email];
     let userExistsSignup = false;
@@ -97,23 +102,23 @@ authRouter.get("/users", (req, res) => {
 });
 
 // Log in
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
   // Look for user email in the database
-  const sqlSelectLogin = "select email,password from users where email = ? and password = ?";
-  const paramsSelectLogin = [req.body.email, req.body.password];
-  let userExistsLogin = false;
-  db.get(sqlSelectLogin, paramsSelectLogin, async function (err, result) {
+  const sqlSelectSignin = "select email,password from users where email = ? and password = ?";
+  const paramsSelectSignin = [req.body.email, req.body.password];
+  let userExistsSignin = false;
+  db.get(sqlSelectSignin, paramsSelectSignin, async function (err, result) {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
     }
     if (result !== undefined) {
-      userExistsLogin = true;
-      console.log(userExistsLogin);
+      userExistsSignin = true;
+      console.log(userExistsSignin);
     }
-    if (!userExistsLogin) {
+    if (!userExistsSignin) {
       res.status(400).json({
         msg: "The user does not exists",
       });

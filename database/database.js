@@ -27,11 +27,25 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     FOREIGN KEY(userEmail) REFERENCES users(email)
     
         )`,
-
             (err) => {
               if (err) {
-                console.log(err)
-              } 
+              } else {
+                db.run(
+                  `
+            CREATE TABLE tabs (
+              name text,
+          userEmail text, 
+      FOREIGN KEY(userEmail) REFERENCES users(email)
+      
+          )`,
+
+                  (err) => {
+                    if (err) {
+                      console.log(err);
+                    }
+                  }
+                );
+              }
             }
           );
         }
