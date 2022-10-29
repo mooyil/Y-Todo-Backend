@@ -6,7 +6,6 @@ const db = require("../database/database");
 
 require("dotenv").config();
 
-
 let userEmail
 // Sign up
 authRouter.post(

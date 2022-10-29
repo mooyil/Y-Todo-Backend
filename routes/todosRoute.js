@@ -58,11 +58,10 @@ todosRoute.post("/todos/post", (req, res, next) => {
     res.json({
       message: "success",
       data: data,
-      id: this.lastID
+      id: this.lastID,
     });
   });
 });
-
 
 todosRoute.delete("/todos/delete/:id", (req, res, next) => {
   db.run(
