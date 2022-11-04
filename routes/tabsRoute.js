@@ -4,9 +4,9 @@ const tabsRoute = express.Router();
 // const mongoose = require("mongoose");
 // const Tabs = require("../models/Tabs");
 
-tabsRoute.get("/tabs/useremail/:userEmail", (req, res, next) => {
-  const sql = "select * from tabs where userEmail = ?";
-  const params = [req.params.userEmail];
+tabsRoute.get("/tabs/userName/:userName", (req, res, next) => {
+  const sql = "select * from tabs where userName = ?";
+  const params = [req.params.userName];
   db.all(sql, params, (err, resp) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -23,11 +23,11 @@ tabsRoute.get("/tabs/useremail/:userEmail", (req, res, next) => {
 tabsRoute.post("/tabs/post", (req, res, next) => {
   const data = {
     name: req.body.name,
-    userEmail: req.body.userEmail,
+    userName: req.body.userName,
   };
   const sql =
-    "INSERT INTO tabs (name, userEmail) VALUES (?,?)";
-  const params = [data.name, data.userEmail];
+    "INSERT INTO tabs (name, userName) VALUES (?,?)";
+  const params = [data.name, data.userName];
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ error: err.message });

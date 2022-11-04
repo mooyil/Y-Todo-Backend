@@ -2,9 +2,9 @@ const express = require("express");
 const todosRoute = express.Router();
 const db = require("../database/database");
 
-todosRoute.get("/todos/username/:userEmail", (req, res, next) => {
-  const sql = "select * from todos where userEmail = ?";
-  const params = [req.params.userEmail];
+todosRoute.get("/todos/username/:userName", (req, res, next) => {
+  const sql = "select * from todos where userName = ?";
+  const params = [req.params.userName];
   db.all(sql, params, (err, resp) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -45,11 +45,11 @@ todosRoute.post("/todos/post", (req, res, next) => {
     content: req.body.content,
     tab: req.body.tab,
     date: req.body.date,
-    userEmail: req.body.userEmail,
+    userName: req.body.userName,
   };
   const sql =
-    "INSERT INTO todos (content, tab, date, userEmail) VALUES (?,?,?,?)";
-  const params = [data.content, data.tab, data.date, data.userEmail];
+    "INSERT INTO todos (content, tab, date, userName) VALUES (?,?,?,?)";
+  const params = [data.content, data.tab, data.date, data.userName];
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ error: err.message });

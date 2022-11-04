@@ -9,7 +9,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     console.log("Connected to the SQLite database.");
     db.run(
       ` CREATE TABLE users (
-          email text PRIMARY KEY not NULL UNIQUE,
+          username text PRIMARY KEY not NULL UNIQUE,
           password text NOT NULL UNIQUE,
           userConfig text
           )`,
@@ -23,8 +23,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             content text, 
             tab text,
             date datetime,
-        userEmail text, 
-    FOREIGN KEY(userEmail) REFERENCES users(email)
+        userName text, 
+    FOREIGN KEY(userName) REFERENCES users(username)
     
         )`,
             (err) => {
@@ -34,8 +34,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                   `
             CREATE TABLE tabs (
               name text,
-          userEmail text, 
-      FOREIGN KEY(userEmail) REFERENCES users(email)
+          userName text, 
+      FOREIGN KEY(userName) REFERENCES users(username)
       
           )`,
 

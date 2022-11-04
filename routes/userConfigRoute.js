@@ -2,9 +2,9 @@ const express = require("express");
 const userConfigRoute = express.Router();
 const db = require("../database/database");
 
-userConfigRoute.get("/userconfig/username/:email", (req, res, next) => {
-  const sql = "select (userConfig) from users where email = ?";
-  const params = req.params.email;
+userConfigRoute.get("/userconfig/username/:username", (req, res, next) => {
+  const sql = "select (userConfig) from users where username = ?";
+  const params = req.params.username;
   db.all(sql, params, (err, resp) => {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -17,15 +17,15 @@ userConfigRoute.get("/userconfig/username/:email", (req, res, next) => {
   });
 });
 
-userConfigRoute.patch("/userconfig/change/:email", (req, res) => {
+userConfigRoute.patch("/userconfig/change/:username", (req, res) => {
   const data = {
     isSorted: req.body.isSorted,
   };
   db.run(
     `UPDATE users set 
          userConfig = COALESCE(?,userConfig)
-         WHERE email = ?`,
-    [data.isSorted, req.params.email],
+         WHERE username = ?`,
+    [data.isSorted, req.params.username],
     function (err, result) {
       if (err) {
         res.status(400).json({ error: res.message });
