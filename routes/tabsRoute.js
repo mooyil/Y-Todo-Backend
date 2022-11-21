@@ -1,8 +1,6 @@
 const express = require("express");
 const db = require("../database/database");
 const tabsRoute = express.Router();
-// const mongoose = require("mongoose");
-// const Tabs = require("../models/Tabs");
 
 tabsRoute.get("/tabs/userName/:userName", (req, res, next) => {
   const sql = "select * from tabs where userName = ?";
@@ -19,14 +17,12 @@ tabsRoute.get("/tabs/userName/:userName", (req, res, next) => {
   });
 });
 
-
 tabsRoute.post("/tabs/post", (req, res, next) => {
   const data = {
     name: req.body.name,
     userName: req.body.userName,
   };
-  const sql =
-    "INSERT INTO tabs (name, userName) VALUES (?,?)";
+  const sql = "INSERT INTO tabs (name, userName) VALUES (?,?)";
   const params = [data.name, data.userName];
   db.run(sql, params, function (err, result) {
     if (err) {

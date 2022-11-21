@@ -11,7 +11,6 @@ let userName;
 authRouter.post(
   "/signup",
   [
-    // check("username", "Invalid username").isusername(),
     check("password", "Password must be at least 6 chars long").isLength({
       min: 6,
     }),
@@ -55,7 +54,7 @@ authRouter.post(
       } else {
         userName = username;
         const sqlInsert = "INSERT INTO users (username, password) VALUES (?,?)";
-        const paramsInsert = [username, password]; 
+        const paramsInsert = [username, password];
         db.run(sqlInsert, paramsInsert, function (err, result) {
           if (err) {
             console.log(err);
