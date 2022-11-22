@@ -26,7 +26,6 @@ authRouter.post(
         return;
       }
     });
-    // Validate user input
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -35,7 +34,6 @@ authRouter.post(
       });
     }
 
-    // Validate if user already exists
     const sqlSelectSignup = "select username from users where username = ?";
     const paramsSelectSignup = [req.body.username];
     let userExistsSignup = false;
@@ -78,16 +76,13 @@ authRouter.post(
   }
 );
 
-// Get all users
 authRouter.get("/users", (req, res) => {
   res.json(users);
 });
 
-// Log in
 authRouter.post("/signin", async (req, res) => {
   const { username, password } = req.body;
 
-  // Look for user username in the database
   const sqlSelectSignin =
     "select username,password from users where username = ? and password = ?";
   const paramsSelectSignin = [req.body.username, req.body.password];
@@ -109,7 +104,7 @@ authRouter.post("/signin", async (req, res) => {
       console.log("user existiert nicht");
     } else {
       userName = username;
-      // Send JWT
+
       const accessToken = JWT.sign(
         { username },
         process.env.ACCESS_TOKEN_SECRET,

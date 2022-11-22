@@ -14,7 +14,6 @@ const authToken = async (req, res, next) => {
     });
   }
 
-  // Authenticate token
   try {
     const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.user = user.username;
